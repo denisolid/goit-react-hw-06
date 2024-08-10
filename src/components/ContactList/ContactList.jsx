@@ -8,13 +8,16 @@ import styles from "./ContactList.module.css";
 
 const ContactList = () => {
   const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectNameFilter);
-  // const filteredData = contacts.filter((item) =>
-  //   item.name.toLowerCase().includes(filter.toLowerCase())
-  // );
+  const filter = useSelector(selectNameFilter) || "";
+  const normalizedFilter =
+    typeof filter === "string" ? filter.toLowerCase() : ""; // Ensure filter is a string
+
+  const filteredData = contacts.filter(
+    (item) => item.name.toLowerCase().includes(normalizedFilter) // Apply filtering
+  );
   return (
     <ul className={styles.list}>
-      {contacts.map((contact) => (
+      {filteredData.map((contact) => (
         <Contact key={contact.id} contact={contact} />
       ))}
     </ul>
